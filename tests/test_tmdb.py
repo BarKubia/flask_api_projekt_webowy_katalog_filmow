@@ -18,11 +18,6 @@ def test_get_movies_list_type_popular():
 def some_function_to_mock():
    raise Exception("Original was called")
 
-def test_mocking():
-   result = some_function_to_mock()
-
-
-
 def test_mocking(monkeypatch):
    my_mock = Mock()
    my_mock.return_value = 2
@@ -41,6 +36,6 @@ def test_get_movies_list(monkeypatch):
    response.json.return_value = mock_movies_list
    monkeypatch.setattr("tmdb_client.requests.get", requests_mock)
 
-
    movies_list = tmdb_client.get_movies_list(list_type="popular")
    assert movies_list == mock_movies_list
+
