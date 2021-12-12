@@ -1,5 +1,7 @@
 import requests
-api_token = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI0MjUxMDZmMjM5NDhjMWQzNDBiNjcxYjUxMWYxNjExNyIsInN1YiI6IjYxOWU0NWEzMzEwMzI1MDA0MzZiN2JiNSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.xhHIchVIGim0YU97QwzCT5s26JNqGViD7moe15F8Py8"
+import os
+api_token = os.environ.get("TMDB_API_TOKEN", "")
+#api_token = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI0MjUxMDZmMjM5NDhjMWQzNDBiNjcxYjUxMWYxNjExNyIsInN1YiI6IjYxOWU0NWEzMzEwMzI1MDA0MzZiN2JiNSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.xhHIchVIGim0YU97QwzCT5s26JNqGViD7moe15F8Py8"
 
 def headers_f(endpoint_f):
     headers = {
