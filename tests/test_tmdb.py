@@ -1,8 +1,8 @@
 from requests.api import request
 import tmdb_client
+import pytest
 from unittest.mock import Mock
 from main import app
-import pytest
 
 def test_call_tmdb_api(monkeypatch):
    movie_id="580489"
