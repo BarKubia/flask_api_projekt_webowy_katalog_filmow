@@ -33,25 +33,9 @@ def get_movies(how_many, list_type):
     data=get_movies_list(list_type)
     return data["results"][:how_many]
 
-
-
 def get_cast(movie_id,how_many2):
     data2 = get_single_movie_cast(movie_id)
     return data2[:how_many2]
-
-def get_movie_images(movie_id):
-    endpoint = f"https://api.themoviedb.org/3/movie/{movie_id}/images"
-    response=headers_f(endpoint)
-    return response.json()
-
-def get_movies_list(list_type):
-    endpoint = f"https://api.themoviedb.org/3/movie/{list_type}"
-    response=headers_f(endpoint)
-    response.raise_for_status()
-    return response.json()
-
-
-
 
 def get_movies_list(list_type):
     return call_tmdb_api(f"movie/{list_type}")

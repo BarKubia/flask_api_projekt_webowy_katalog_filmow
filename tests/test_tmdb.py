@@ -1,41 +1,62 @@
+from requests.api import request
 import tmdb_client
 from unittest.mock import Mock
 
-def test_get_poster_url_uses_default_size():
-   # Przygotowanie danych
-   poster_api_path = "some-poster-path"
-   expected_default_size = 'w342'
-   # Wywołanie kodu, który testujemy
-   poster_url = tmdb_client.get_poster_url(poster_api_path=poster_api_path)
-   # Porównanie wyników
-   assert expected_default_size in poster_url
-   #assert poster_url == "https://image.tmdb.org/t/p/w342/some-poster-path"
-
-def test_get_movies_list_type_popular():
-   movies_list = tmdb_client.get_movies_list(list_type="popular")
-   assert movies_list is not None
-
-def some_function_to_mock():
-   raise Exception("Original was called")
-
-def test_mocking(monkeypatch):
-   my_mock = Mock()
-   my_mock.return_value = 2
-   monkeypatch.setattr("tests.test_tmdb.some_function_to_mock", my_mock)
-   result = some_function_to_mock()
-   assert result == 2
-
-def test_get_movies_list(monkeypatch):
-   # Lista, którą będzie zwracać przysłonięte "zapytanie do API"
-   mock_movies_list = ['Movie 1', 'Movie 2']
-
-   requests_mock = Mock()
-   # Wynik wywołania zapytania do API
-   response = requests_mock.return_value
-   # Przysłaniamy wynik wywołania metody .json()
-   response.json.return_value = mock_movies_list
+def test_call_tmdb_api(monkeypatch):
+   movie_id="580489"
+   mock_call_tmdb_api=['Movie 1']
+   requests_mock=Mock()
+   response=requests_mock.return_value
+   response.json.return_value=mock_call_tmdb_api
    monkeypatch.setattr("tmdb_client.requests.get", requests_mock)
+   single_movie = tmdb_client.call_tmdb_api(f"movie/{movie_id}")
+   assert single_movie == mock_call_tmdb_api
 
-   movies_list = tmdb_client.get_movies_list(list_type="popular")
-   assert movies_list == mock_movies_list
 
+def test_get_single_movie_not_None():
+   movie_id="580489"
+   movie_580489 = tmdb_client.get_single_movie(movie_id)
+   assert movie_580489 is not None
+
+def test_get_single_movie_mock(monkeypatch):
+   movie_id="580489"
+   mock_get_single_movie=['Movie 1']
+   requests_mock=Mock()
+   response=requests_mock.return_value
+   response.json.return_value=mock_get_single_movie
+   monkeypatch.setattr("tmdb_client.requests.get", requests_mock)
+   single_movie2 = tmdb_client.call_tmdb_api(f"movie/{movie_id}")
+   assert single_movie2 == mock_get_single_movie
+
+
+def test_get_movie_image_not_None():
+   movie_id="580489"
+   movie_image_580489 = tmdb_client.get_single_movie(movie_id)
+   assert movie_image_580489 is not None
+
+def test_get_movie_images_mock(monkeypatch):
+   movie_id="580489"
+   mock_get_movie_images=['Movie images']
+   requests_mock=Mock()
+   response=requests_mock.return_value
+   response.json.return_value=mock_get_movie_images
+   monkeypatch.setattr("tmdb_client.requests.get", requests_mock)
+   movie_images = tmdb_client.call_tmdb_api(f"movie/{movie_id}/images")
+   assert movie_images == mock_get_movie_images
+
+
+def test_get_single_movie_cast_not_None():
+   movie_id="580489"
+   movie_cast_580489 = tmdb_client.get_single_movie_cast(movie_id)
+   assert movie_cast_580489 is not None
+
+def test_get_single_movie_cast_mock(monkeypatch):
+   movie_id="580489"
+   cast=1
+   mock_get_movie_cast=1
+   requests_mock=Mock()
+   response=requests_mock.return_value
+   response.json.return_value=mock_get_movie_cast
+   monkeypatch.setattr("tmdb_client.requests.get", requests_mock)
+   movie_cast = tmdb_client.call_tmdb_api(f"movie/{movie_id}/credits[{cast}]")
+   assert movie_cast == mock_get_movie_cast
